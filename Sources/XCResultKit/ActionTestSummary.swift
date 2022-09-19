@@ -20,6 +20,7 @@ public struct ActionTestSummary: XCResultObjectGenerated {
     public let name: String
     public let identifier: String
     public let testStatus: String
+    // sourcery: defaultValue = 0
     public let duration: Double
     public let performanceMetrics: [ActionTestPerformanceMetricSummary]
     public let failureSummaries: [ActionTestFailureSummary]
