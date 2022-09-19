@@ -11,10 +11,6 @@
 
 import Foundation
 
-public struct ArchiveInfo: XCResultObject {
+public struct ArchiveInfo: XCResultObjectGenerated {
     public let path: String?
-    
-    public init?(_ json: [String: AnyObject]) {
-        path = xcOptional(element: "path", from: json)
-    }
 }

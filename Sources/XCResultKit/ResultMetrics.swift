@@ -15,20 +15,11 @@
 
 import Foundation
 
-public struct ResultMetrics: XCResultObject {
+public struct ResultMetrics: XCResultObjectGenerated {
     public let analyzerWarningCount: Int?
     public let errorCount: Int?
     public let testsCount: Int?
     public let testsFailedCount: Int?
     public let warningCount: Int?
     public let testsSkippedCount: Int?
-    
-    public init?(_ json: [String: AnyObject]) {    
-        analyzerWarningCount = xcOptional(element: "analyzerWarningCount", from: json)
-        errorCount = xcOptional(element: "errorCount", from: json)
-        testsCount = xcOptional(element: "testsCount", from: json)
-        testsFailedCount = xcOptional(element: "testsFailedCount", from: json)
-        warningCount = xcOptional(element: "warningCount", from: json)
-        testsSkippedCount = xcOptional(element: "testsSkippedCount", from: json)
-    }
 }

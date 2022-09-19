@@ -11,10 +11,6 @@
 
 import Foundation
 
-public struct ActionTestPlanRunSummaries: XCResultObject {
+public struct ActionTestPlanRunSummaries: XCResultObjectGenerated {
     public let summaries: [ActionTestPlanRunSummary]
-    
-    public init?(_ json: [String: AnyObject]) {        
-        summaries = xcArray(element: "summaries", from: json).ofType(ActionTestPlanRunSummary.self)
-    }
 }

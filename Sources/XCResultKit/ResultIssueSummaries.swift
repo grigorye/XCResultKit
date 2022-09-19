@@ -14,16 +14,9 @@
 
 import Foundation
 
-public struct ResultIssueSummaries: XCResultObject {
+public struct ResultIssueSummaries: XCResultObjectGenerated {
     public let analyzerWarningSummaries: [IssueSummary]
     public let errorSummaries: [IssueSummary]
     public let testFailureSummaries: [TestFailureIssueSummary]
     public let warningSummaries: [IssueSummary]
-    
-    public init?(_ json: [String: AnyObject]) {        
-        analyzerWarningSummaries = xcArray(element: "analyzerWarningSummaries", from: json).ofType(IssueSummary.self)
-        errorSummaries = xcArray(element: "errorSummaries", from: json).ofType(IssueSummary.self)
-        testFailureSummaries = xcArray(element: "testFailureSummaries", from: json).ofType(TestFailureIssueSummary.self)
-        warningSummaries = xcArray(element: "warningSummaries", from: json).ofType(IssueSummary.self)
-    }
 }

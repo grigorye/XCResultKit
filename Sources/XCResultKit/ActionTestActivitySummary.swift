@@ -17,8 +17,7 @@
 
 import Foundation
 
-public struct ActionTestActivitySummary: XCResultObject {
-
+public struct ActionTestActivitySummary: XCResultObjectGenerated {
     public let title: String
     public let activityType: String
     public let uuid: String
@@ -26,21 +25,4 @@ public struct ActionTestActivitySummary: XCResultObject {
     public let finish: Date?
     public let attachments: [ActionTestAttachment]
     public let subactivities: [ActionTestActivitySummary]
-
-    public init?(_ json: [String: AnyObject]) {
-        do {
-            title = try xcRequired(element: "title", from: json)
-            activityType = try xcRequired(element: "activityType", from: json)
-            uuid = try xcRequired(element: "uuid", from: json)
-            start = xcOptional(element: "start", from: json)
-            finish = xcOptional(element: "finish", from: json)
-            attachments = xcArray(element: "attachments", from: json)
-                .ofType(ActionTestAttachment.self)
-            subactivities = xcArray(element: "subactivities", from: json)
-                .ofType(ActionTestActivitySummary.self)
-        } catch {
-            logError("Error parsing ActionTestActivitySummary: \(error.localizedDescription)")
-            return nil
-        }
-    }
 }

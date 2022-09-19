@@ -21,24 +21,10 @@ import Foundation
 //          + endLocation: DocumentLocation?
 //          + edges: [ActivityLogAnalyzerControlFlowStepEdge]
 
-public struct ActivityLogAnalyzerControlFlowStep: XCResultObject {
+public struct ActivityLogAnalyzerControlFlowStep: XCResultObjectGenerated {
     public let parentIndex: Int
     public let title: String
     public let startLocation: DocumentLocation?
     public let endLocation: DocumentLocation?
     public let edges: [ActivityLogAnalyzerControlFlowStepEdge]
-
-    public init?(_ json: [String: AnyObject]) {
-        do {
-            parentIndex = try xcRequired(element: "parentIndex", from: json)
-            title = try xcRequired(element: "title", from: json)
-            startLocation = xcOptional(element: "startLocation", from: json)
-            endLocation = xcOptional(element: "endLocation", from: json)
-            edges = xcArray(element: "edges", from: json)
-                .ofType(ActivityLogAnalyzerControlFlowStepEdge.self)
-        } catch {
-            logError("Error parsing ActivityLogAnalyzerControlFlowStep: \(error.localizedDescription)")
-            return nil
-        }
-    }
 }

@@ -28,7 +28,7 @@
 
 import Foundation
 
-public struct ActionDeviceRecord: XCResultObject, Encodable {
+public struct ActionDeviceRecord: XCResultObjectGenerated, Encodable {
     public let name: String
     public let isConcreteDevice: Bool
     public let operatingSystemVersion: String
@@ -47,32 +47,6 @@ public struct ActionDeviceRecord: XCResultObject, Encodable {
     public let physicalCPUCoresPerPackage: Int?
     public let logicalCPUCoresPerPackage: Int?
     public let platformRecord: ActionPlatformRecord
-    
-    public init?(_ json: [String: AnyObject]) {
-        do {
-            name = try xcRequired(element: "name", from: json)
-            isConcreteDevice = try xcRequired(element: "isConcreteDevice", from: json)
-            operatingSystemVersion = try xcRequired(element: "operatingSystemVersion", from: json)
-            operatingSystemVersionWithBuildNumber = try xcRequired(element: "operatingSystemVersionWithBuildNumber", from: json)
-            nativeArchitecture = try xcRequired(element: "nativeArchitecture", from: json)
-            modelName = try xcRequired(element: "modelName", from: json)
-            modelCode = try xcRequired(element: "modelCode", from: json)
-            modelUTI = try xcRequired(element: "modelUTI", from: json)
-            identifier = try xcRequired(element: "identifier", from: json)
-            isWireless = xcOptional(element: "isWireless", from: json)
-            cpuKind = xcOptional(element: "cpuKind", from: json)
-            cpuCount = xcOptional(element: "cpuCount", from: json)
-            cpuSpeedInMhz = xcOptional(element: "cpuSpeedInMhz", from: json)
-            busSpeedInMhz = xcOptional(element: "busSpeedInMhz", from: json)
-            ramSizeInMegabytes = xcOptional(element: "ramSizeInMegabytes", from: json)
-            physicalCPUCoresPerPackage = xcOptional(element: "physicalCPUCoresPerPackage", from: json)
-            logicalCPUCoresPerPackage = xcOptional(element: "logicalCPUCoresPerPackage", from: json)
-            platformRecord = try xcRequired(element: "platformRecord", from: json)
-        } catch {
-            logError("Error parsing ActionDeviceRecord: \(error.localizedDescription)")
-            return nil
-        }
-    }
     
     enum CodingKeys: String, CodingKey {
         case name

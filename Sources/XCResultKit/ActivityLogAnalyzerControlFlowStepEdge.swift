@@ -13,12 +13,7 @@ import Foundation
 //    + startLocation: DocumentLocation?
 //    + endLocation: DocumentLocation?
 
-public struct ActivityLogAnalyzerControlFlowStepEdge: XCResultObject {
+public struct ActivityLogAnalyzerControlFlowStepEdge: XCResultObjectGenerated {
     public let startLocation: DocumentLocation?
     public let endLocation: DocumentLocation?
-
-    public init?(_ json: [String: AnyObject]) {
-        startLocation = xcOptional(element: "startLocation", from: json)
-        endLocation = xcOptional(element: "endLocation", from: json)
-    }
 }

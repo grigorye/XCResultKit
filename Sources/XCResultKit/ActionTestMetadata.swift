@@ -17,7 +17,7 @@
 
 import Foundation
 
-public struct ActionTestMetadata: XCResultObject {
+public struct ActionTestMetadata: XCResultObjectGenerated {
     public let name: String
     public let identifier: String
     public let testStatus: String
@@ -26,20 +26,4 @@ public struct ActionTestMetadata: XCResultObject {
     public let performanceMetricsCount: Int?
     public let failureSummariesCount: Int?
     public let activitySummariesCount: Int?
-    
-    public init?(_ json: [String: AnyObject]) {
-        do {
-            name = try xcRequired(element: "name", from: json)
-            identifier = try xcRequired(element: "identifier", from: json)
-            testStatus = try xcRequired(element: "testStatus", from: json)
-            duration = xcOptional(element: "duration", from: json)
-            summaryRef = xcOptional(element: "summaryRef", from: json)
-            performanceMetricsCount = xcOptional(element: "performanceMetricsCount", from: json)
-            failureSummariesCount = xcOptional(element: "failureSummariesCount", from: json)
-            activitySummariesCount = xcOptional(element: "activitySummariesCount", from: json)
-        } catch {
-            logError("Error parsing ActionTestMetadata: \(error.localizedDescription)")
-            return nil
-        }
-    }
 }

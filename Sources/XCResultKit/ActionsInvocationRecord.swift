@@ -17,24 +17,10 @@
 
 import Foundation
 
-public struct ActionsInvocationRecord: XCResultObject {
+public struct ActionsInvocationRecord: XCResultObjectGenerated {
     public let metadataRef: Reference?
     public let metrics: ResultMetrics
     public let issues: ResultIssueSummaries
     public let actions: [ActionRecord]
     public let archive: ArchiveInfo?
-    
-    public init?(_ json: [String: AnyObject]) {
-        
-        do {
-            metrics = try xcRequired(element: "metrics", from: json)
-            issues = try xcRequired(element: "issues", from: json)
-            metadataRef = xcOptional(element: "metadataRef", from: json)
-            archive = xcOptional(element: "archive", from: json)
-            actions = xcArray(element: "actions", from: json).ofType(ActionRecord.self)
-        } catch {
-            logError("Error parsing ActionsInvocationRecord: \(error.localizedDescription)")
-            return nil
-        }
-    }
 }

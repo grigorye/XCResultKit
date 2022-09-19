@@ -20,7 +20,7 @@
 
 import Foundation
 
-public struct ActionTestPerformanceMetricSummary: XCResultObject {
+public struct ActionTestPerformanceMetricSummary: XCResultObjectGenerated {
     public let displayName: String
     public let unitOfMeasurement: String
     public let measurements: [Double]
@@ -31,22 +31,4 @@ public struct ActionTestPerformanceMetricSummary: XCResultObject {
     public let maxPercentRelativeStandardDeviation: Double?
     public let maxRegression: Double?
     public let maxStandardDeviation: Double?
-
-    public init?(_ json: [String: AnyObject]) {
-        do {
-            displayName = try xcRequired(element: "displayName", from: json)
-            unitOfMeasurement = try xcRequired(element: "unitOfMeasurement", from: json)
-            measurements = xcArray(element: "measurements", from: json).ofType(Double.self)
-            identifier = xcOptional(element: "identifier", from: json)
-            baselineName = xcOptional(element: "baselineName", from: json)
-            baselineAverage = xcOptional(element: "baselineAverage", from: json)
-            maxPercentRegression = xcOptional(element: "maxPercentRegression", from: json)
-            maxPercentRelativeStandardDeviation = xcOptional(element: "maxPercentRelativeStandardDeviation", from: json)
-            maxRegression = xcOptional(element: "maxRegression", from: json)
-            maxStandardDeviation = xcOptional(element: "maxStandardDeviation", from: json)
-        } catch {
-            logError("Error parsing ActionTestPerformanceMetricSummary: \(error.localizedDescription)")
-            return nil
-        }
-    }
 }

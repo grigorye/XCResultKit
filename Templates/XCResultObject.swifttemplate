@@ -1,0 +1,25 @@
+<%_ for type in types.implementing["XCResultObjectGenerated"].filter({ $0 is Struct }) { -%>
+extension <%= type.name %>: XCResultObject {
+    public init?(_ json: [String: AnyObject]) {
+        do {
+        <%_ for variable in type.storedVariables { -%>
+            <%_ let element = variable.annotations["element"] as? String ?? variable.name -%>
+            <%_ if variable.typeName.isArray { -%>
+            <%= variable.name -%> = xcArray(element: "<%= element %>", from: json)
+                <%_ let arrayType = variable.annotations["arrayType"] as? String ?? variable.typeName.array!.elementTypeName.unwrappedTypeName -%>
+                .ofType(<%= arrayType %>.self)
+            <%_ } else if variable.typeName.isOptional { -%>
+            <%= variable.name %> = xcOptional(element: "<%= element %>", from: json)
+            <%_ } else { -%>
+            <%= variable.name %> = try xcRequired(element: "<%= element %>", from: json)
+            <%_ } -%>
+        <%_ } -%>
+<%# TODO: If there are no required types, omit the catch block to avoid warning -%>
+        } catch {
+            logError("Error parsing <%= type.name %>: \(error.localizedDescription)")
+            return nil
+        }
+    }
+}
+
+<%_ } -%>

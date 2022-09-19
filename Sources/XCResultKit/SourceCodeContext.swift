@@ -13,14 +13,9 @@ import Foundation
 //  * Properties:
 //    + location: SourceCodeLocation?
 //    + callStack: [SourceCodeFrame]
-public struct SourceCodeContext: XCResultObject {
+public struct SourceCodeContext: XCResultObjectGenerated {
     public let location: SourceCodeLocation?
     public let callStack: [SourceCodeFrame]
-    
-    public init(_ json: [String: AnyObject]) {
-        location = xcOptional(element: "location", from: json)
-        callStack = xcArray(element: "callStack", from: json).ofType(SourceCodeFrame.self)
-    }
 }
 
 // xcresulttool version 21016, format version 3.39
@@ -29,14 +24,9 @@ public struct SourceCodeContext: XCResultObject {
 //  * Properties:
 //    + addressString: String?
 //    + symbolInfo: SourceCodeSymbolInfo?
-public struct SourceCodeFrame: XCResultObject {
+public struct SourceCodeFrame: XCResultObjectGenerated {
     public let addressString: String?
     public let symbolInfo: SourceCodeSymbolInfo?
-    
-    public init(_ json: [String: AnyObject]) {
-        addressString = xcOptional(element: "addressString", from: json)
-        symbolInfo = xcOptional(element: "symbolInfo", from: json)
-    }
 }
 
 // xcresulttool version 21016, format version 3.39
@@ -45,14 +35,9 @@ public struct SourceCodeFrame: XCResultObject {
 //  * Properties:
 //    + filePath: String?
 //    + lineNumber: Int?
-public struct SourceCodeLocation: XCResultObject {
+public struct SourceCodeLocation: XCResultObjectGenerated {
     public let filePath: String?
     public let lineNumber: Int?
-    
-    public init(_ json: [String: AnyObject]) {
-        filePath = xcOptional(element: "filePath", from: json)
-        lineNumber = xcOptional(element: "lineNumber", from: json)
-    }
 }
 
 // xcresulttool version 21016, format version 3.39
@@ -62,14 +47,8 @@ public struct SourceCodeLocation: XCResultObject {
 //    + imageName: String?
 //    + symbolName: String?
 //    + location: SourceCodeLocation?
-public struct SourceCodeSymbolInfo: XCResultObject {
+public struct SourceCodeSymbolInfo: XCResultObjectGenerated {
     public let imageName: String?
     public let symbolName: String?
     public let location: SourceCodeLocation?
-    
-    public init(_ json: [String: AnyObject]) {
-        imageName = xcOptional(element: "imageName", from: json)
-        symbolName = xcOptional(element: "symbolName", from: json)
-        location = xcOptional(element: "location", from: json)
-    }
 }
