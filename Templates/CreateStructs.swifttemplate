@@ -1,0 +1,87 @@
+<%# Parses xcresulttool's output format into structs -%>
+<%
+
+struct XcodeResultTypes: Decodable {
+    let name: String
+    let version: Version
+    let signature: String
+    let types: [ResultType]
+    
+    struct Version: Decodable {
+        let major: Int
+        let minor: Int
+    }
+}
+
+struct ResultType: Decodable {
+    let type: `Type`
+    let kind: String
+    let properties: [Property]?
+    
+    struct `Type`: Decodable {
+        let name: String
+        let supertype: String?
+    }
+    
+    struct Property: Decodable {
+        let isOptional: Bool
+        let isInternal: Bool
+        let wrappedType: String?
+        let name: String
+        let type: String
+    }
+}
+
+let xcresultFormat: Data = {
+    let task = Process()
+    let pipe = Pipe()
+
+    task.standardOutput = pipe
+    task.standardError = pipe
+    task.launchPath = "/usr/bin/xcrun"
+    task.arguments = ["xcresulttool", "formatDescription", "get", "--format", "json"]
+    task.standardInput = nil
+    task.launch()
+
+    return pipe.fileHandleForReading.readDataToEndOfFile()
+}()
+
+let root = try JSONDecoder().decode(XcodeResultTypes.self, from: xcresultFormat)
+
+func formatPropertyType(property: ResultType.Property) -> String {
+    
+    if let wrappedType = property.wrappedType {
+        if property.type == "Optional" {
+            return "\(wrappedType)?"
+        }
+        return "\(property.type)<\(wrappedType)>"
+    }
+    
+    if property.type == "SchemaSerializable" {
+        return "Any"
+    }
+    
+    return property.type
+}
+-%>
+
+// Output Generated from
+// Name: <%= root.name %>
+// Version: <%= root.version.major -%>.<%= root.version.minor %>
+// Signature: <%= root.signature %>
+
+<%_ for type in root.types.filter({ $0.kind == "object" }) { -%>
+<%
+let supertypeFormat = type.type.supertype != nil ? ": \(type.type.supertype!)" : ""
+
+// If the type is inherited by others it must be a class
+let isClass = root.types.first { $0.type.supertype == type.type.name } != nil || type.type.supertype != nil
+-%>
+// <%= type.type.name %>
+public <%= isClass ? "class" : "struct" %> <%= type.type.name %><%= supertypeFormat %> {
+    <%_ for property in type.properties ?? [] { -%>
+    public let <%= property.name %>: <%= formatPropertyType(property: property) %>
+    <%_ } -%>
+}
+
+<%_ } -%>
