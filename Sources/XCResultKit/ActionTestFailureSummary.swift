@@ -24,8 +24,11 @@ import Foundation
 //    + isTopLevelFailure: Bool
 public struct ActionTestFailureSummary: XCResultObjectGenerated {
     public let message: String?
+    // sourcery: defaultValue = ""
     public let fileName: String
+    // sourcery: defaultValue = 0
     public let lineNumber: Int
+    // sourcery: defaultValue = false
     public let isPerformanceFailure: Bool
     public let uuid: String
     public let issueType: String?
@@ -34,5 +37,6 @@ public struct ActionTestFailureSummary: XCResultObjectGenerated {
     // TestAssociatedError
     public let sourceCodeContext: SourceCodeContext?
     public let timestamp: Date?
+    // sourcery: defaultValue = false
     public let isTopLevelFailure: Bool
 }

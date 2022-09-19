@@ -147,9 +147,9 @@ extension ActionTestFailureSummary: XCResultObject {
     public init?(_ json: [String: AnyObject]) {
         do {
             message = xcOptional(element: "message", from: json)
-            fileName = try xcRequired(element: "fileName", from: json)
-            lineNumber = try xcRequired(element: "lineNumber", from: json)
-            isPerformanceFailure = try xcRequired(element: "isPerformanceFailure", from: json)
+            fileName = xcOptional(element: "fileName", from: json) ?? String()
+            lineNumber = xcOptional(element: "lineNumber", from: json) ?? 0
+            isPerformanceFailure = xcOptional(element: "isPerformanceFailure", from: json) ?? false
             uuid = try xcRequired(element: "uuid", from: json)
             issueType = xcOptional(element: "issueType", from: json)
             detailedDescription = xcOptional(element: "detailedDescription", from: json)
@@ -157,7 +157,7 @@ extension ActionTestFailureSummary: XCResultObject {
                 .ofType(ActionTestAttachment.self)
             sourceCodeContext = xcOptional(element: "sourceCodeContext", from: json)
             timestamp = xcOptional(element: "timestamp", from: json)
-            isTopLevelFailure = try xcRequired(element: "isTopLevelFailure", from: json)
+            isTopLevelFailure = xcOptional(element: "isTopLevelFailure", from: json) ?? false
         } catch {
             logError("Error parsing ActionTestFailureSummary: \(error.localizedDescription)")
             return nil

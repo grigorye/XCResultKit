@@ -1,17 +1,40 @@
+<%
+func elementName(variable: Variable) -> String {
+    variable.annotations["element"] as? String ?? variable.name
+}
+
+func arrayType(variable: Variable) -> String {
+    variable.annotations["arrayType"] as? String ?? variable.typeName.array!.elementTypeName.unwrappedTypeName
+}
+
+func defaultValue(variable: Variable) -> String? {
+    if let defaultValue = variable.annotations["defaultValue"] {
+        if let defaultValueString = defaultValue as? String {
+            if defaultValueString == "" {
+                return "String()"
+            }
+            return defaultValueString
+        } else {
+            return "\(defaultValue)"
+        }
+    }
+    return nil
+}
+-%>
 <%_ for type in types.implementing["XCResultObjectGenerated"].filter({ $0 is Struct }) { -%>
 extension <%= type.name %>: XCResultObject {
     public init?(_ json: [String: AnyObject]) {
         do {
         <%_ for variable in type.storedVariables { -%>
-            <%_ let element = variable.annotations["element"] as? String ?? variable.name -%>
             <%_ if variable.typeName.isArray { -%>
-            <%= variable.name -%> = xcArray(element: "<%= element %>", from: json)
-                <%_ let arrayType = variable.annotations["arrayType"] as? String ?? variable.typeName.array!.elementTypeName.unwrappedTypeName -%>
-                .ofType(<%= arrayType %>.self)
+            <%= variable.name -%> = xcArray(element: "<%= elementName(variable: variable) %>", from: json)
+                .ofType(<%= arrayType(variable: variable) %>.self)
             <%_ } else if variable.typeName.isOptional { -%>
-            <%= variable.name %> = xcOptional(element: "<%= element %>", from: json)
+            <%= variable.name %> = xcOptional(element: "<%= elementName(variable: variable) %>", from: json)
+            <%_ } else if let defaultValue = defaultValue(variable: variable) { -%>
+            <%= variable.name %> = xcOptional(element: "<%= elementName(variable: variable) %>", from: json) ?? <%= defaultValue %>
             <%_ } else { -%>
-            <%= variable.name %> = try xcRequired(element: "<%= element %>", from: json)
+            <%= variable.name %> = try xcRequired(element: "<%= elementName(variable: variable) %>", from: json)
             <%_ } -%>
         <%_ } -%>
 <%# TODO: If there are no required types, omit the catch block to avoid warning -%>
