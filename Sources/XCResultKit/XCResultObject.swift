@@ -7,6 +7,8 @@
 
 import Foundation
 
+protocol XCResultObjectGenerated {}
+
 protocol XCResultObject {
     init?(_ json: [String: AnyObject])
 }

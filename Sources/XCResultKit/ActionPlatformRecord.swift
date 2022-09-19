@@ -12,20 +12,10 @@
 
 import Foundation
 
-public struct ActionPlatformRecord: XCResultObject, Encodable {
+public struct ActionPlatformRecord: XCResultObjectGenerated, Encodable {
     public let identifier: String
     public let userDescription: String
-    
-    public init?(_ json: [String: AnyObject]) {
-        do {
-            identifier = try xcRequired(element: "identifier", from: json)
-            userDescription = try xcRequired(element: "userDescription", from: json)
-        } catch {
-            logError("Error parsing ActionPlatformRecord: \(error.localizedDescription)")
-            return nil
-        }
-    }
-    
+
     enum CodingKeys: String, CodingKey {
         case identifier
         case userDescription

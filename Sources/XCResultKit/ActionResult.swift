@@ -19,7 +19,7 @@
 
 import Foundation
 
-public struct ActionResult: XCResultObject {
+public struct ActionResult: XCResultObjectGenerated {
     public let resultName: String
     public let status: String
     public let metrics: ResultMetrics
@@ -29,22 +29,4 @@ public struct ActionResult: XCResultObject {
     public let logRef: Reference?
     public let testsRef: Reference?
     public let diagnosticsRef: Reference?
-
-    public init?(_ json: [String: AnyObject]) {
-        
-        do {
-            resultName = try xcRequired(element: "resultName", from: json)
-            status = try xcRequired(element: "status", from: json)
-            metrics = try xcRequired(element: "metrics", from: json)
-            issues = try xcRequired(element: "issues", from: json)
-            coverage = try xcRequired(element: "coverage", from: json)
-            timelineRef = xcOptional(element: "timelineRef", from: json)
-            logRef = xcOptional(element: "logRef", from: json)
-            testsRef = xcOptional(element: "testsRef", from: json)
-            diagnosticsRef = xcOptional(element: "diagnosticsRef", from: json)
-        } catch {
-            logError("Error parsing ActionResult: \(error.localizedDescription)")
-            return nil
-        }
-    }
 }

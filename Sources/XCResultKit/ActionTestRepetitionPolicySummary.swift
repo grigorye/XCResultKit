@@ -7,35 +7,32 @@
 
 import Foundation
 
-public struct ActionTestRepetitionPolicySummary: XCResultObject {
+public struct ActionTestRepetitionPolicySummary: XCResultObjectGenerated {
     
     public let iteration: Int
     public let totalIterations: Int
     public let repetitionMode: RepetitionMode?
-    
-    public init?(_ json: [String: AnyObject]) {
-        do {
-            iteration = try xcRequired(element: "iteration", from: json)
-            totalIterations = try xcRequired(element: "totalIterations", from: json)
-            repetitionMode = RepetitionMode.from(xcOptional(element: "repetitionMode", from: json))
-        } catch {
-            logError("Error parsing \(String(describing: ActionTestRepetitionPolicySummary.self)): \(error.localizedDescription)")
-            return nil
-        }
-    }
 
 }
 
-public enum RepetitionMode: String {
+public enum RepetitionMode: String, XCResultObject {
     case none = "None"
     case runUntilFailure = "RunUntilFailure"
     case runRetryOnFailure = "RunRetryOnFailure"
     case upUntilMaximumRepetitions = "FixedIterations"
     
-    static func from(_ str: String?) -> Self? {
-        if let str = str {
-            return self.init(rawValue: str)
+    init?(_ json: [String : AnyObject]) {
+        // Ensure we have the correct type here
+        guard let type = json["_type"] as? [String: AnyObject], let name = type["_name"] as? String, name == "String" else {
+            logError("Incorrect type, expecting String")
+            return nil
         }
-        return nil
+
+        guard let actualValue = json["_value"] as? NSString else {
+            logError("Unable to get string value")
+            return nil
+        }
+
+        self.init(rawValue: actualValue as String)
     }
 }

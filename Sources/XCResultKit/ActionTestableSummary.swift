@@ -19,7 +19,7 @@
 
 import Foundation
 
-public struct ActionTestableSummary: XCResultObject {
+public struct ActionTestableSummary: XCResultObjectGenerated {
     public let projectRelativePath: String?
     public let targetName: String?
     public let testKind: String?
@@ -28,15 +28,4 @@ public struct ActionTestableSummary: XCResultObject {
     public let failureSummaries: [ActionTestFailureSummary]
     public let testLanguage: String?
     public let testRegion: String?
-    
-    public init?(_ json: [String: AnyObject]) {        
-        projectRelativePath = xcOptional(element: "projectRelativePath", from: json)
-        targetName = xcOptional(element: "targetName", from: json)
-        testKind = xcOptional(element: "testKind", from: json)
-        tests = xcArray(element: "tests", from: json).ofType(ActionTestSummaryGroup.self)
-        diagnosticsDirectoryName = xcOptional(element: "diagnosticsDirectoryName", from: json)
-        failureSummaries = xcArray(element: "failureSummaries", from: json).ofType(ActionTestFailureSummary.self)
-        testLanguage = xcOptional(element: "testLanguage", from: json)
-        testRegion = xcOptional(element: "testRegion", from: json)
-    }
 }

@@ -12,15 +12,6 @@
 
 import Foundation
 
-public struct TypeDefinition: XCResultObject {
+public struct TypeDefinition: XCResultObjectGenerated {
     public let name: String
-    
-    public init?(_ json: [String: AnyObject]) {
-        do {
-            name = try xcRequired(element: "name", from: json)
-        } catch {
-            logError("Error parsing TypeDefinition: \(error.localizedDescription)")
-            return nil
-        }
-    }
 }

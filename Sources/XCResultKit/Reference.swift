@@ -14,18 +14,7 @@
 
 import Foundation
 
-public struct Reference: XCResultObject {
+public struct Reference: XCResultObjectGenerated {
     public let id: String
     public let targetType: TypeDefinition?
-    
-    public init?(_ json: [String: AnyObject]) {
-        
-        do {
-            id = try xcRequired(element: "id", from: json)
-            targetType = xcOptional(element: "targetType", from: json)
-        } catch {
-            logError("Error parsing Reference: \(error.localizedDescription)")
-            return nil
-        }
-    }
 }

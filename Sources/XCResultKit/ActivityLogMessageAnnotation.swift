@@ -13,17 +13,7 @@ import Foundation
 //    + title: String
 //    + location: DocumentLocation?
 
-public struct ActivityLogMessageAnnotation: XCResultObject {
+public struct ActivityLogMessageAnnotation: XCResultObjectGenerated {
     public let title: String
     public let location: DocumentLocation?
-
-    public init?(_ json: [String: AnyObject]) {
-        do {
-            title = try xcRequired(element: "title", from: json)
-            location = xcOptional(element: "location", from: json)
-        } catch {
-            logError("Error parsing ActivityLogMessageAnnotation: \(error.localizedDescription)")
-            return nil
-        }
-    }
 }

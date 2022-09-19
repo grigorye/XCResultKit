@@ -1,0 +1,9 @@
+sources:
+  include:
+    - Sources/XCResultKit
+  exclude:
+    - Sources/XCResultKit/Generated
+templates:
+  - Templates
+output:
+  Sources/XCResultKit/Generated
