@@ -7,6 +7,12 @@
 
 import Foundation
 
+#if os(Linux)
+fileprivate func autoreleasepool<T>(_ block: () -> T) -> T {
+    block()
+}
+#endif
+
 public class XCResultFile {
     
     private enum XCRunOutput {
